@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'models/Pokemon.dart';
+import 'package:pokemon_black_market/ui/list_pokemon.dart';
+import 'package:pokemon_black_market/ui/pokemon_details.dart';
+
+import 'models/pokemon.dart';
 
 void main() => runApp(PokemonStore());
 
@@ -13,8 +16,9 @@ class PokemonStore extends StatefulWidget {
 
 class _PokemonStoreState extends State<PokemonStore> {
   late Future<ListPokemon> futureListPokemon;
+  String? _selectedPokemon;
 
-  @override //?? double override
+  @override
   void initState() {
     super.initState();
     futureListPokemon = fetchListPokemon();
@@ -27,32 +31,35 @@ class _PokemonStoreState extends State<PokemonStore> {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Pokemon')
-        ),
-        body: Center(
-          child: FutureBuilder<ListPokemon>(
-            future: futureListPokemon,
-            builder: (context, snapshot) {
-              if(snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: snapshot.data!.results.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: Text(snapshot.data!.results[index].name),
-                    );
-                  },
-                );
-                //return Text(snapshot.data!.results[0].name);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return CircularProgressIndicator();
-            },
+      home: Navigator(
+        pages: [
+          MaterialPage(
+            key: ValueKey('Home'),
+            child: ListPokemonView(
+              futureListPokemon: futureListPokemon,
+              onTap: _handlePokemonTapped,
+            ),
           ),
-        ),
+          if (_selectedPokemon != null) PokemonDetails(pokemon: _selectedPokemon),
+        ],
+        onPopPage: (route, result) {
+          if (!route.didPop(result)) {
+            return false;
+          }
+
+          setState(() {
+            _selectedPokemon = null;
+          });
+
+          return true;
+        },
       ),
     );
+  }
+
+  void _handlePokemonTapped(Pokemon pokemon) {
+    setState(() {
+      _selectedPokemon = pokemon.name;
+    });
   }
 }
