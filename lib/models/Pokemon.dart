@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:json_annotation/json_annotation.dart';
+
+part 'pokemon.g.dart';
 
 Future<ListPokemon> fetchListPokemon() async {
   final response = await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon?limit=10&offset=0'));
@@ -20,9 +23,10 @@ Future<Pokemon> fetchPokemon(String pokemonName) async {
   throw Exception('Failed to load pokemon');
 }
 
+@JsonSerializable()
 class ListPokemon {
-  final String next;
-  final String previous;
+  final String? next;
+  final String? previous;
   final List<Pokemon> results;
 
   ListPokemon({
@@ -31,26 +35,15 @@ class ListPokemon {
     required this.results,
   });
 
-  factory ListPokemon.fromJson(Map<String, dynamic> json) {
-    late List<Pokemon> res;
-    if (json['results'] != null) {
-      res = <Pokemon>[];
-      json['results'].forEach((v) {
-        res.add(new Pokemon.fromJson(v));
-      });
-    }
-    return ListPokemon(
-      next: json['next'].toString(),
-      previous: json['previous'].toString(),
-      results: res,
-    );
-  }
+  factory ListPokemon.fromJson(Map<String, dynamic> json) => _$ListPokemonFromJson(json);
+  Map<String, dynamic> toJson() => _$ListPokemonToJson(this);
 }
 
+@JsonSerializable()
 class Pokemon {
   int? height;
   int? id;
-  String? name;
+  String name;
   Sprites? sprites;
   List<Types>? types;
   int? weight;
@@ -64,47 +57,25 @@ class Pokemon {
     required this.weight,
   });
 
-  factory Pokemon.fromJson(Map<String, dynamic> json) {
-    List<Types>? types_;
-    if (json['types'] != null) {
-      types_ = <Types>[];
-      json['types'].forEach((v) {
-        types_!.add(new Types.fromJson(v));
-      });
-    }
-
-    Sprites? sprites_;
-    if (json['sprites'] != null) {
-      sprites_ = new Sprites.fromJson(json['sprites']);
-    }
-
-    return Pokemon(
-      id: json['id'],
-      name: json['name'],
-      height: json['height'],
-      weight: json['weight'],
-      types: types_,
-      sprites: sprites_,
-    );
-  }
+  factory Pokemon.fromJson(Map<String, dynamic> json) => _$PokemonFromJson(json);
+  Map<String, dynamic> toJson() => _$PokemonToJson(this);
 }
 
+@JsonSerializable()
 class Sprites {
-  String frontDefault;
+  String? front_default;
 
   Sprites({
-    required this.frontDefault,
+    required this.front_default,
   });
 
-  factory Sprites.fromJson(Map<String, dynamic> json) {
-    return Sprites(
-      frontDefault: json['front_default']
-    );
-  }
+  factory Sprites.fromJson(Map<String, dynamic> json) => _$SpritesFromJson(json);
+  Map<String, dynamic> toJson() => _$SpritesToJson(this);
 }
 
+@JsonSerializable()
 class Types {
-  int slot;
+  int? slot;
   Type? type;
 
   Types({
@@ -112,24 +83,18 @@ class Types {
     required this.type,
   });
 
-  factory Types.fromJson(Map<String, dynamic> json) {
-    return Types(
-        slot: json['slot'],
-        type: json['type'] != null ? new Type.fromJson(json['type']) : null,
-    );
-  }
+  factory Types.fromJson(Map<String, dynamic> json) => _$TypesFromJson(json);
+  Map<String, dynamic> toJson() => _$TypesToJson(this);
 }
 
+@JsonSerializable()
 class Type {
-  String name;
+  String? name;
 
   Type({
     required this.name
   });
 
-  factory Type.fromJson(Map<String, dynamic> json) {
-    return Type(
-        name: json['name']
-    );
-  }
+  factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
+  Map<String, dynamic> toJson() => _$TypeToJson(this);
 }

@@ -55,14 +55,15 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
           builder: (context, snapshot) {
             if(snapshot.hasData) {
               var data = snapshot.data!;
+              print(data.sprites!.front_default);
               return Card(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Image.network(data.sprites!.frontDefault),
+                    Image.network(data.sprites!.front_default!),
                     Text('Types:', style: TextStyle(fontWeight: FontWeight.bold)),
                     Row(
-                      children: data.types!.map((e) => new Text(e.type!.name)).toList(),
+                      children: data.types!.map((e) => new Text(e.type!.name!)).toList(),
                     ),
                     Text('Price:', style: TextStyle(fontWeight: FontWeight.bold)),
                     Text('${(data.weight! / data.height!).toString()}'),

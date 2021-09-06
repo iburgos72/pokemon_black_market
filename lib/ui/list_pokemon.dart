@@ -28,7 +28,7 @@ class ListPokemonView extends StatelessWidget {
                   return GestureDetector(
                     onTap: () => onTap(snapshot.data!.results[index]),
                     child: Card(
-                      child: Text(snapshot.data!.results[index].name!),
+                      child: Text(snapshot.data!.results[index].name),
                     ),
                   );
                 },
