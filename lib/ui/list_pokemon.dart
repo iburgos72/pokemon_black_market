@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_black_market/provider/select_view.dart';
+import 'package:pokemon_black_market/ui/components/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../models/pokemon.dart';
@@ -43,6 +44,7 @@ class ListPokemonView extends StatelessWidget {
           },
         ),
       ),
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 }
