@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon_black_market/provider/select_view.dart';
+import 'package:provider/provider.dart';
 
 import '../models/pokemon.dart';
 
 class ListPokemonView extends StatelessWidget {
   final Future<ListPokemon> futureListPokemon;
-  final ValueChanged<Pokemon> onTap;
 
   ListPokemonView({
+    Key? key,
     required this.futureListPokemon,
-    required this.onTap,
-  });
+  }) : super (key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
           title: Text('Pokemon')
@@ -26,7 +28,7 @@ class ListPokemonView extends StatelessWidget {
                 itemCount: snapshot.data!.results.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () => onTap(snapshot.data!.results[index]),
+                    onTap: () => Provider.of<SelectView>(context, listen: false).updateView(snapshot.data!.results[index].name),
                     child: Card(
                       child: Text(snapshot.data!.results[index].name),
                     ),

@@ -1,21 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pokemon_black_market/provider/select_view.dart';
+import 'package:provider/provider.dart';
 
 import '../models/pokemon.dart';
 
 class PokemonDetails extends Page {
-  final String? pokemon;
-
-  PokemonDetails({
-    required this.pokemon,
-  }): super(key: ValueKey(pokemon));
-
-  Route createRoute(BuildContext) {
-    print(pokemon);
+  Route createRoute(BuildContext context) {
     return MaterialPageRoute(
       settings: this,
       builder: (builder) {
-        return PokemonDetailsScreen(pokemonName: pokemon);
+        return PokemonDetailsScreen(pokemonName: Provider.of<SelectView>(context, listen: false).view);
       }
     );
   }
@@ -55,7 +50,6 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
           builder: (context, snapshot) {
             if(snapshot.hasData) {
               var data = snapshot.data!;
-              print(data.sprites!.front_default);
               return Card(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

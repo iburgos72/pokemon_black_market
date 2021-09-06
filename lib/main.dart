@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon_black_market/provider/select_view.dart';
+import 'package:provider/provider.dart';
 
 import 'package:pokemon_black_market/ui/list_pokemon.dart';
 import 'package:pokemon_black_market/ui/pokemon_details.dart';
 
 import 'models/pokemon.dart';
 
-void main() => runApp(PokemonStore());
-
-class PokemonStore extends StatefulWidget {
-  const PokemonStore({Key? key}) : super(key: key);
-
-  @override
-  _PokemonStoreState createState() => _PokemonStoreState();
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SelectView()),
+      ],
+      child: PokemonStore(),
+    ),
+  );
 }
 
-class _PokemonStoreState extends State<PokemonStore> {
-  late Future<ListPokemon> futureListPokemon;
-  String? _selectedPokemon;
-
-  @override
-  void initState() {
-    super.initState();
-    futureListPokemon = fetchListPokemon();
-  }
+class PokemonStore extends StatelessWidget {
+  late Future<ListPokemon> futureListPokemon = fetchListPokemon();
 
   @override
   Widget build(BuildContext context) {
@@ -37,29 +34,17 @@ class _PokemonStoreState extends State<PokemonStore> {
             key: ValueKey('Home'),
             child: ListPokemonView(
               futureListPokemon: futureListPokemon,
-              onTap: _handlePokemonTapped,
             ),
           ),
-          if (_selectedPokemon != null) PokemonDetails(pokemon: _selectedPokemon),
+          if (context.watch<SelectView>().view != "") PokemonDetails(),
         ],
         onPopPage: (route, result) {
-          if (!route.didPop(result)) {
-            return false;
-          }
-
-          setState(() {
-            _selectedPokemon = null;
-          });
-
+          if (!route.didPop(result)) return false;
+          context.read<SelectView>().updateView("");
           return true;
         },
       ),
     );
   }
-
-  void _handlePokemonTapped(Pokemon pokemon) {
-    setState(() {
-      _selectedPokemon = pokemon.name;
-    });
-  }
 }
+
