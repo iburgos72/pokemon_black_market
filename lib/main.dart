@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pokemon_black_market/provider/poke_lists.dart';
 import 'package:pokemon_black_market/provider/select_view.dart';
 import 'package:pokemon_black_market/ui/components/bottom_nav_bar.dart';
 import 'package:pokemon_black_market/ui/poke_cart.dart';
@@ -16,6 +17,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SelectView()),
+        ChangeNotifierProvider(create: (_) => PokeList()),
       ],
       child: PokemonStore(),
     ),
