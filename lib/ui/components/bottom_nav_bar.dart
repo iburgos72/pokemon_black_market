@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:pokemon_black_market/provider/select_view.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -10,10 +13,12 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(BuildContext context, int index) {
+    List<String> views = <String>["", "cart", "wishlist"];
     setState(() {
       _selectedIndex = index;
     });
+    Provider.of<SelectView>(context, listen: false).updateView(views[index]);
   }
 
   @override
@@ -35,7 +40,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ],
       currentIndex: _selectedIndex,
       selectedItemColor: Colors.red,
-      onTap: _onItemTapped,
+      onTap: (i) => _onItemTapped(context, i),
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_black_market/provider/select_view.dart';
+import 'package:pokemon_black_market/ui/poke_cart.dart';
+import 'package:pokemon_black_market/ui/poke_wishlist.dart';
 import 'package:provider/provider.dart';
 
 import 'package:pokemon_black_market/ui/list_pokemon.dart';
@@ -37,6 +39,8 @@ class PokemonStore extends StatelessWidget {
             ),
           ),
           if (context.watch<SelectView>().view != "") PokemonDetails(),
+          if (context.watch<SelectView>().view == "cart") PokeCart(),
+          if (context.watch<SelectView>().view == "wishlist") PokeWishlist(),
         ],
         onPopPage: (route, result) {
           if (!route.didPop(result)) return false;

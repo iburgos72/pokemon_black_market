@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pokemon_black_market/provider/select_view.dart';
 import 'package:provider/provider.dart';
+
+import 'package:pokemon_black_market/provider/select_view.dart';
 
 import '../models/pokemon.dart';
 
