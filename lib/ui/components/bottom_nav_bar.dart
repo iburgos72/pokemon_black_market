@@ -5,16 +5,30 @@ import 'package:provider/provider.dart';
 
 import 'package:pokemon_black_market/provider/select_view.dart';
 
-class BottomNavBar extends StatelessWidget {
-  final Map states = {
-    "": 0,
-    "cart": 1,
-    "wishlist": 2,
-  };
+class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({Key? key}) : super(key: key);
+
+  @override
+  _BottomNavBarState createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<BottomNavBar> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(BuildContext context, int index) {
+    List<Views> views = <Views>[Views.home, Views.cart, Views.wishlist];
+
+    SelectView provider = Provider.of<SelectView>(context, listen: false);
+    provider.updateView(views[index]);
+    provider.updatePokemon("");
+
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final _selectedIndex = states[Provider.of<SelectView>(context, listen: false).view];
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
@@ -30,14 +44,9 @@ class BottomNavBar extends StatelessWidget {
             label: 'Wishlist'
         ),
       ],
-      currentIndex: _selectedIndex != null ? _selectedIndex : 0,
+      currentIndex: _selectedIndex,
       selectedItemColor: Colors.red,
       onTap: (i) => _onItemTapped(context, i),
     );
-  }
-
-  void _onItemTapped(BuildContext context, int index) {
-    List<String> views = <String>["", "cart", "wishlist"];
-    Provider.of<SelectView>(context, listen: false).updateView(views[index]);
   }
 }

@@ -16,35 +16,34 @@ class ListPokemonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      appBar: AppBar(
-          title: Text('Pokemon')
+    return Center(
+      child: FutureBuilder<ListPokemon>(
+        future: futureListPokemon,
+        builder: (context, snapshot) {
+          if(snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data!.results.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () => _onTap(context, snapshot.data!.results[index].name),
+                  child: Card(
+                    child: Text(snapshot.data!.results[index].name),
+                  ),
+                );
+              },
+            );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return CircularProgressIndicator();
+        },
       ),
-      body: Center(
-        child: FutureBuilder<ListPokemon>(
-          future: futureListPokemon,
-          builder: (context, snapshot) {
-            if(snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data!.results.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () => Provider.of<SelectView>(context, listen: false).updateView(snapshot.data!.results[index].name),
-                    child: Card(
-                      child: Text(snapshot.data!.results[index].name),
-                    ),
-                  );
-                },
-              );
-              //return Text(snapshot.data!.results[0].name);
-            } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
-            return CircularProgressIndicator();
-          },
-        ),
-      ),
-      bottomNavigationBar: BottomNavBar(),
     );
+  }
+
+  void _onTap(BuildContext context, String pokemon) {
+    SelectView provider = Provider.of<SelectView>(context, listen: false);
+    provider.updateView(Views.pokemon);
+    provider.updatePokemon(pokemon);
   }
 }

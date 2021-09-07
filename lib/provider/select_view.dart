@@ -1,18 +1,34 @@
 import 'package:flutter/foundation.dart';
 
+enum Views {
+  cart,
+  checkout,
+  home,
+  pokemon,
+  wishlist,
+}
+
 class SelectView with ChangeNotifier, DiagnosticableTreeMixin {
-  String _view = "";
+  Views _view = Views.home;
+  String _pokemon = "";
 
-  String get view => _view;
+  Views get view => _view;
+  String get pokemon => _pokemon;
 
-  void updateView(String view) {
+  void updateView(Views view) {
     _view = view;
+    notifyListeners();
+  }
+
+  void updatePokemon(String pokemon) {
+    _pokemon = pokemon;
     notifyListeners();
   }
 
   @override
   void debugFillProprties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(StringProperty('view', view));
+    properties.add(EnumProperty('view', view));
+    properties.add(StringProperty('pokemon', pokemon));
   }
 }
