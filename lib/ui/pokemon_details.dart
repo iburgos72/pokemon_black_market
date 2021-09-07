@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:pokemon_black_market/provider/select_view.dart';
 
 import '../models/pokemon.dart';
+import 'components/bottom_nav_bar.dart';
 
 class PokemonDetails extends Page {
   Route createRoute(BuildContext context) {
@@ -72,6 +73,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
           },
         ),
       ),
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

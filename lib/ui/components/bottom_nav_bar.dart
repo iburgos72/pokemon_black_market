@@ -30,7 +30,7 @@ class BottomNavBar extends StatelessWidget {
             label: 'Wishlist'
         ),
       ],
-      currentIndex: _selectedIndex,
+      currentIndex: _selectedIndex != null ? _selectedIndex : 0,
       selectedItemColor: Colors.red,
       onTap: (i) => _onItemTapped(context, i),
     );
