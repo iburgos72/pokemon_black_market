@@ -1,27 +1,20 @@
 import 'package:flutter/foundation.dart';
 
 enum Views {
-  cart,
-  checkout,
   home,
-  pokemon,
+  cart,
   wishlist,
 }
 
 class SelectView with ChangeNotifier, DiagnosticableTreeMixin {
+  int _selectedIndex = 0;
   Views _view = Views.home;
-  String _pokemon = "";
 
-  Views get view => _view;
-  String get pokemon => _pokemon;
+  int get selectedIndex => _selectedIndex;
+  Views get view => Views.values[_selectedIndex];
 
-  void updateView(Views view) {
-    _view = view;
-    notifyListeners();
-  }
-
-  void updatePokemon(String pokemon) {
-    _pokemon = pokemon;
+  void setSelectedIndex(int index) {
+    _selectedIndex = index;
     notifyListeners();
   }
 
@@ -29,6 +22,5 @@ class SelectView with ChangeNotifier, DiagnosticableTreeMixin {
   void debugFillProprties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(EnumProperty('view', view));
-    properties.add(StringProperty('pokemon', pokemon));
   }
 }

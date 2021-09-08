@@ -25,22 +25,17 @@ void main() {
 }
 
 class PokemonStore extends StatelessWidget {
-  late Future<ListPokemon> futureListPokemon = fetchListPokemon();
-
-  PokemonStore({
-    Key? key
-  }) : super (key: key);
-
   @override
   Widget build(BuildContext context) {
-    Views view = context.watch<SelectView>().view;
-    String pokemon = context.read<SelectView>().pokemon;
+    Views view = context.select<SelectView, Views>((selectView) => selectView.view);
+    //String pokemon = context.read<SelectView>().pokemon;
+    String pokemon = 'charmander';
     String title = pokemon == "" ? view.toString() : pokemon;
-    Widget content = ListPokemonView(futureListPokemon: futureListPokemon);
+    Widget content;
 
     switch (view) {
-      case Views.pokemon:
-        content = PokemonDetails(pokemonName: pokemon);
+      case Views.home:
+        content = ListPokemonView();
         break;
       case Views.cart:
         content = PokeCart();

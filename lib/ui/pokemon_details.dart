@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_black_market/provider/poke_lists.dart';
+import 'package:pokemon_black_market/repositories/pokemon_repository.dart';
 import 'package:provider/provider.dart';
 
 import 'package:pokemon_black_market/provider/select_view.dart';
@@ -10,7 +11,7 @@ import 'components/bottom_nav_bar.dart';
 
 class PokemonDetails extends StatelessWidget {
   final String? pokemonName;
-  late Future<Pokemon> pokemon = fetchPokemon(pokemonName!);
+  late Future<Pokemon> pokemon = PokemonRepository().fetchPokemon(pokemonName!);
 
   PokemonDetails({
     Key? key,
