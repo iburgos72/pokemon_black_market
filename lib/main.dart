@@ -25,7 +25,6 @@ class PokemonStore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Views view = context.select<ViewNotifier, Views>((selectView) => selectView.view);
-    //String pokemon = context.read<SelectView>().pokemon;
     String pokemon = 'charmander';
     String title = pokemon == "" ? view.toString() : pokemon;
     Widget content;

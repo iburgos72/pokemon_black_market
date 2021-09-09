@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:pokemon_black_market/models/pokemon.dart';
 import 'package:pokemon_black_market/provider/cart_wishlist_notifier.dart';
+import 'package:pokemon_black_market/ui/pokemon_checkout.dart';
 
 class PokeCart extends StatelessWidget {
   @override
@@ -144,7 +145,12 @@ class PokeCart extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 16)),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PokemonCheckout())
+                );
+              },
               child: const Text('go to checkout'),
             ),
           ),
