@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_black_market/provider/list_pokemon_state.dart';
-import 'package:pokemon_black_market/provider/select_view.dart';
+import 'package:pokemon_black_market/provider/list_pokemon_notifier.dart';
+import 'package:pokemon_black_market/provider/view_notifier.dart';
+import 'package:pokemon_black_market/ui/pokemon_details.dart';
 import 'package:provider/provider.dart';
 
 import '../models/pokemon.dart';
 
 class ListPokemonView extends StatelessWidget {
   Widget _buildContent(BuildContext context) {
-    final screenState = context.read<ListPokemonNotifier>();
-    final state = context.select<ListPokemonNotifier, ListPokemonState>((screenState) => screenState.state);
+    final ListPokemonNotifier screenState = context.read<ListPokemonNotifier>();
+    final ListPokemonState state = context.select<ListPokemonNotifier, ListPokemonState>((screenState) => screenState.state);
+
     switch (state) {
       case ListPokemonState.loading:
         return Center(child: CircularProgressIndicator());
@@ -30,6 +32,14 @@ class ListPokemonView extends StatelessWidget {
     }
   }
 
+  void _onTap(BuildContext context, String pokemon) {
+    context.read<ViewNotifier>().setPokemon(pokemon);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PokemonDetails())
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -38,9 +48,5 @@ class ListPokemonView extends StatelessWidget {
         builder: (context) => _buildContent(context),
       ),
     );
-  }
-
-  void _onTap(BuildContext context, String pokemon) {
-    SelectView provider = Provider.of<SelectView>(context, listen: false);
   }
 }

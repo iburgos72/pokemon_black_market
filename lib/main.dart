@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_black_market/provider/poke_lists.dart';
-import 'package:pokemon_black_market/provider/select_view.dart';
+import 'package:pokemon_black_market/provider/view_notifier.dart';
 import 'package:pokemon_black_market/ui/components/bottom_nav_bar.dart';
 import 'package:pokemon_black_market/ui/poke_cart.dart';
 import 'package:pokemon_black_market/ui/poke_wishlist.dart';
@@ -16,7 +16,7 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => SelectView()),
+        ChangeNotifierProvider(create: (_) => ViewNotifier()),
         ChangeNotifierProvider(create: (_) => PokeList()),
       ],
       child: PokemonStore(),
@@ -27,7 +27,7 @@ void main() {
 class PokemonStore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Views view = context.select<SelectView, Views>((selectView) => selectView.view);
+    Views view = context.select<ViewNotifier, Views>((selectView) => selectView.view);
     //String pokemon = context.read<SelectView>().pokemon;
     String pokemon = 'charmander';
     String title = pokemon == "" ? view.toString() : pokemon;

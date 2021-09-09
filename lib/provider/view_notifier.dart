@@ -6,11 +6,12 @@ enum Views {
   wishlist,
 }
 
-class SelectView with ChangeNotifier, DiagnosticableTreeMixin {
+class ViewNotifier with ChangeNotifier, DiagnosticableTreeMixin {
   int _selectedIndex = 0;
-  Views _view = Views.home;
+  String _selectedPokemon = "";
 
   int get selectedIndex => _selectedIndex;
+  String get selectedPokemon => _selectedPokemon;
   Views get view => Views.values[_selectedIndex];
 
   void setSelectedIndex(int index) {
@@ -18,9 +19,15 @@ class SelectView with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
-  @override
+  void setPokemon(String pokemon) {
+    _selectedPokemon = pokemon;
+    notifyListeners();
+  }
+
   void debugFillProprties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(EnumProperty('view', view));
+    properties.add(StringProperty('pokemonView', selectedPokemon));
+    properties.add(IntProperty('selectedIndex', selectedIndex));
   }
 }

@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:pokemon_black_market/provider/select_view.dart';
+import 'package:pokemon_black_market/provider/view_notifier.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -25,9 +25,9 @@ class BottomNavBar extends StatelessWidget {
             label: 'Wishlist'
         ),
       ],
-      currentIndex: context.read<SelectView>().selectedIndex,
+      currentIndex: context.read<ViewNotifier>().selectedIndex,
       selectedItemColor: Colors.red,
-      onTap: context.read<SelectView>().setSelectedIndex,
+      onTap: context.read<ViewNotifier>().setSelectedIndex,
     );
   }
 }
