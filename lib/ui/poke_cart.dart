@@ -1,19 +1,22 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:pokemon_black_market/models/pokemon.dart';
-import 'package:pokemon_black_market/provider/poke_lists.dart';
 import 'package:provider/provider.dart';
 
-import 'components/bottom_nav_bar.dart';
+import 'package:pokemon_black_market/models/pokemon.dart';
+import 'package:pokemon_black_market/provider/cart_wishlist_notifier.dart';
 
 class PokeCart extends StatelessWidget {
   PokeCart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    PokeList provider = Provider.of<PokeList>(context, listen: true);
-    Map<String, Map<String, dynamic>> cart = provider.cart;
+    final cartWishlist = context.read<CartWishlistNotifier>();
+    final cart = context.watch<CartWishlistNotifier>().cart;
+
+    if (cart.keys.length == 0) {
+      return Center(
+        child: Text('Add pokemons to your cart'),
+      );
+    }
 
     return SingleChildScrollView(
       physics: ScrollPhysics(),
@@ -41,15 +44,15 @@ class PokeCart extends StatelessWidget {
               itemCount: cart.length,
               itemBuilder: (context, index) {
                 String key = cart.keys.elementAt(index);
-                Pokemon details = cart[key]!['details'];
-                double price = details.weight! / details.height! * cart[key]!['total'];
+                Pokemon pokemon = cart[key]!['details'];
+                double price = pokemon.weight! / pokemon.height! * cart[key]!['total'];
                 return Card(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
-                          Image.network(details.sprites!.front_default!),
+                          Image.network(pokemon.sprites!.front_default!),
                           Column(
                               children: [
                                 Text(key),
@@ -57,7 +60,7 @@ class PokeCart extends StatelessWidget {
                                 Row(
                                   children: [
                                     ElevatedButton(
-                                      onPressed: () => provider.decreasePokemonOnCart(key),
+                                      onPressed: () => cartWishlist.decreasePokemonOnCart(key),
                                       child: Icon(Icons.exposure_minus_1, color: Colors.white, size: 15,),
                                       style: ElevatedButton.styleFrom(
                                         minimumSize: Size(5, 5),
@@ -69,7 +72,7 @@ class PokeCart extends StatelessWidget {
                                     ),
                                     Text('${cart[key]!['total']}'),
                                     ElevatedButton(
-                                      onPressed: () => provider.increasePokemonOnCart(key),
+                                      onPressed: () => cartWishlist.increasePokemonOnCart(key),
                                       child: Icon(Icons.plus_one, color: Colors.white, size: 15,),
                                       style: ElevatedButton.styleFrom(
                                         minimumSize: Size(5, 5),
@@ -85,10 +88,37 @@ class PokeCart extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Text('\$${double.parse(price.toStringAsFixed(2))}'),
-                      )
+                      Column(
+                        children: [
+                          Text('\$${double.parse(price.toStringAsFixed(2))}'),
+                          Row(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () => cartWishlist.removePokemonFromCart(key),
+                                child: Icon(Icons.delete, color: Colors.white, size: 15,),
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(5, 5),
+                                  shape: CircleBorder(),
+                                  padding: EdgeInsets.all(3),
+                                  primary: Colors.grey,
+                                  onPrimary: Colors.blueGrey,
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () => cartWishlist.moveFromCartToWishlist(pokemon),
+                                child: Icon(Icons.star_border, color: Colors.white, size: 15,),
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(5, 5),
+                                  shape: CircleBorder(),
+                                  padding: EdgeInsets.all(3),
+                                  primary: Colors.red,
+                                  onPrimary: Colors.redAccent,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 );
@@ -106,7 +136,7 @@ class PokeCart extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 20),
                   child: Text(
-                    '\$${double.parse(provider.totalPokemon.toStringAsFixed(2))}',
+                    '\$${double.parse(cartWishlist.totalPokemon.toStringAsFixed(2))}',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                 ),
               ],

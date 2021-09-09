@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:pokemon_black_market/models/pokemon.dart';
 
-class PokeList with ChangeNotifier, DiagnosticableTreeMixin {
+class CartWishlistNotifier with ChangeNotifier, DiagnosticableTreeMixin {
   Map<String, Map<String, dynamic>> _cart = {};
   Map<String, Map<String, dynamic>> _wishlist = {};
 
@@ -32,8 +32,8 @@ class PokeList with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
-  void removePokemonFromCart(Pokemon pokemon) {
-    _cart.remove(pokemon.name);
+  void removePokemonFromCart(String pokemon) {
+    _cart.remove(pokemon);
     notifyListeners();
   }
 
@@ -48,6 +48,10 @@ class PokeList with ChangeNotifier, DiagnosticableTreeMixin {
       _cart.remove(pokemon);
     }
     notifyListeners();
+  }
+
+  void moveFromCartToWishlist(Pokemon pokemon) {
+
   }
 
   void addPokemonToWishlist(Pokemon pokemon) {

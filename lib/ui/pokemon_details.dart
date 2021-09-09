@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:pokemon_black_market/provider/poke_lists.dart';
+import 'package:pokemon_black_market/provider/cart_wishlist_notifier.dart';
 import 'package:pokemon_black_market/provider/pokemon_details_notifier.dart';
 import 'package:pokemon_black_market/provider/view_notifier.dart';
 
@@ -10,7 +10,7 @@ class PokemonDetails extends StatelessWidget {
   Widget _buildContent(BuildContext context) {
     final pokemonDetails = context.read<PokemonDetailsNotifier>();
     final state = context.select<PokemonDetailsNotifier, PokemonDetailsState>((screenState) => screenState.state);
-    final pokeList = context.read<PokeList>();
+    final pokeList = context.read<CartWishlistNotifier>();
 
     switch (state) {
       case PokemonDetailsState.loading:
@@ -54,7 +54,7 @@ class PokemonDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String pokemonName = context.read<ViewNotifier>().selectedPokemon;
+    final pokemonName = context.read<ViewNotifier>().selectedPokemon;
     return ChangeNotifierProvider(
       create: (_) => PokemonDetailsNotifier(pokemonName),
       child: Builder(
