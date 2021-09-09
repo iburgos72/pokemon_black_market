@@ -54,6 +54,10 @@ class CartWishlistNotifier with ChangeNotifier, DiagnosticableTreeMixin {
 
   }
 
+  void moveFromWishlistToCart(Pokemon pokemon) {
+
+  }
+
   void addPokemonToWishlist(Pokemon pokemon) {
     if (_wishlist[pokemon.name] == null) {
       _wishlist[pokemon.name] = {
@@ -66,8 +70,8 @@ class CartWishlistNotifier with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
-  void removePokemonFromWishlist(Pokemon pokemon) {
-    _wishlist.remove(pokemon.name);
+  void removePokemonFromWishlist(String pokemon) {
+    _wishlist.remove(pokemon);
     notifyListeners();
   }
 

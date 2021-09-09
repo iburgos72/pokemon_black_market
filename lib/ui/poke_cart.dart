@@ -5,8 +5,6 @@ import 'package:pokemon_black_market/models/pokemon.dart';
 import 'package:pokemon_black_market/provider/cart_wishlist_notifier.dart';
 
 class PokeCart extends StatelessWidget {
-  PokeCart({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final cartWishlist = context.read<CartWishlistNotifier>();
