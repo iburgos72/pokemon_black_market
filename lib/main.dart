@@ -1,16 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:pokemon_black_market/provider/cart_wishlist_notifier.dart';
 import 'package:pokemon_black_market/provider/view_notifier.dart';
 import 'package:pokemon_black_market/ui/components/bottom_nav_bar.dart';
+import 'package:pokemon_black_market/ui/list_pokemon.dart';
 import 'package:pokemon_black_market/ui/poke_cart.dart';
 import 'package:pokemon_black_market/ui/poke_wishlist.dart';
-import 'package:provider/provider.dart';
-
-import 'package:pokemon_black_market/ui/list_pokemon.dart';
-import 'package:pokemon_black_market/ui/pokemon_details.dart';
-
-import 'models/pokemon.dart';
 
 void main() {
   runApp(

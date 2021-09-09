@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:pokemon_black_market/provider/list_pokemon_notifier.dart';
 import 'package:pokemon_black_market/provider/view_notifier.dart';
 import 'package:pokemon_black_market/ui/pokemon_details.dart';
-import 'package:provider/provider.dart';
-
-import '../models/pokemon.dart';
 
 class ListPokemonView extends StatelessWidget {
   Widget _buildContent(BuildContext context) {

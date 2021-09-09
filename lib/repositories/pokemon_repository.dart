@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
+
 import 'package:pokemon_black_market/models/pokemon.dart';
 
 class PokemonRepository {

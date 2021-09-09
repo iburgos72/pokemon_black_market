@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+
 import 'package:pokemon_black_market/models/pokemon.dart';
 
 class CartWishlistNotifier with ChangeNotifier, DiagnosticableTreeMixin {
