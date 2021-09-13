@@ -9,17 +9,19 @@ class CartWishlistNotifier with ChangeNotifier, DiagnosticableTreeMixin {
   Map<String, Map<String, dynamic>> get cart => _cart;
   Map<String, Map<String, dynamic>> get wishlist => _wishlist;
 
-  double get totalPokemon => calculateTotal();
+  double get totalCart => _calculateTotalCart();
 
-  double calculateTotal() {
+  double _calculateTotalCart() {
     double total = 0;
-    _cart.keys.forEach((e) {
-      Pokemon details = cart[e]!['details'];
-      total = total + (details.weight! / details.height! * _cart[e]!['total']);
+    _cart.keys.forEach((pokemon) {
+      total = total + calculateTotalPokemon(pokemon);
     });
-
     return total;
   }
+
+  double calculateTotalPokemon(String pokemon) => cart[pokemon]!['details'].price * _cart[pokemon]!['total'];
+
+  String getTotalPokemon(String pokemon) => double.parse(calculateTotalPokemon(pokemon).toStringAsFixed(2)).toString();
 
   void addPokemonToCart(Pokemon pokemon) {
     if (_cart[pokemon.name] == null) {

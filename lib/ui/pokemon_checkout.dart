@@ -81,9 +81,9 @@ class PokemonCheckout extends StatelessWidget {
                     child: TextFormField(
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
-                        hintText: 'la_salsa_de_ash@hotmail.com',
-                        labelText: 'Email'
+                          border: UnderlineInputBorder(),
+                          hintText: 'la_salsa_de_ash@hotmail.com',
+                          labelText: 'Email'
                       ),
                       validator: (email) {
                         if (!EmailValidator.validate(email!)) return "Invalid email";
