@@ -14,7 +14,7 @@ class PokeCart extends StatelessWidget {
     final cart = context.watch<CartWishlistNotifier>().cart;
 
     if (cart.keys.length == 0) {
-      return Center(
+      return const Center(
         child: Text('Add pokemons to your cart'),
       );
     }
@@ -22,7 +22,7 @@ class PokeCart extends StatelessWidget {
     final cartWishlist = context.read<CartWishlistNotifier>();
     final Map<String, dynamic> content = {
       "type": "cart",
-      "pokemonTotalPrice": cartWishlist.getTotalPokemon,
+      "pokemonTotalPrice": cartWishlist.getTotalPokemonCart,
       "cart": <String, dynamic> {
         "decreaseFunc": cartWishlist.decreasePokemonOnCart,
         "increaseFunc": cartWishlist.increasePokemonOnCart,
