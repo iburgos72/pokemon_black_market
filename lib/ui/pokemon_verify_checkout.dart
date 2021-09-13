@@ -18,11 +18,10 @@ class PokemonVerifyCheckout extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text('Items Items Items Items Items Items Items Items Items Items Items Items Items Items Items Items Items Items '),
             Card(
               child: Column(
                 children: [
-                  Text('Items Items Items Items Items Items Items Items Items Items Items Items Items Items Items Items Items Items '),
+                  Text('Items'),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),

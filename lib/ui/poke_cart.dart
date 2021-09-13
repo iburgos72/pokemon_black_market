@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_black_market/ui/components/general_pokemon_list.dart';
 import 'package:provider/provider.dart';
 
-import 'package:pokemon_black_market/models/pokemon.dart';
-import 'package:pokemon_black_market/provider/cart_wishlist_notifier.dart';
+import 'package:pokemon_black_market/ui/components/general_list_header.dart';
+import 'package:pokemon_black_market/ui/components/general_pokemon_list.dart';
+import 'package:pokemon_black_market/ui/constants/styles.dart';
 import 'package:pokemon_black_market/ui/pokemon_checkout.dart';
+
+import 'package:pokemon_black_market/provider/cart_wishlist_notifier.dart';
 
 class PokeCart extends StatelessWidget {
   @override
@@ -30,40 +32,22 @@ class PokeCart extends StatelessWidget {
     };
 
     final List<Widget> itemsToDisplay = [
-      Card(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text('Pokemon', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: Text('Price', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            ),
-          ],
-        ),
-      ),
+      GeneralListHeader(),
       ...generalPokemonList(cart, content).toList(),
       Card(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text('Total', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: Text(
-                  '\$${double.parse(cartWishlist.totalCart.toStringAsFixed(2))}',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Total', style: boldText),
+              Text('\$${double.parse(cartWishlist.totalCart.toStringAsFixed(2))}', style: boldText),
+            ],
+          ),
         ),
       ),
       Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         alignment: Alignment.bottomRight,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 16)),
@@ -73,14 +57,15 @@ class PokeCart extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => PokemonCheckout())
             );
           },
-          child: const Text('go to checkout'),
+          child: const Text('Checkout'),
         ),
       ),
     ];
 
     return ListView.builder(
-      itemCount: itemsToDisplay.length,
-      itemBuilder: (_, index) => itemsToDisplay[index]
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        itemCount: itemsToDisplay.length,
+        itemBuilder: (_, index) => itemsToDisplay[index]
     );
   }
 }
