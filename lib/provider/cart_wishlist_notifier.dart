@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
 import 'package:pokemon_black_market/models/pokemon.dart';
 
@@ -8,10 +9,14 @@ class CartWishlistNotifier with ChangeNotifier, DiagnosticableTreeMixin {
 
   Map<String, Map<String, dynamic>> get cart => _cart;
   Map<String, Map<String, dynamic>> get wishlist => _wishlist;
-
   double get totalCart => _calculateTotalCart();
+  int get totalItemsCart => _calculateTotalItemsCart();
+  int get totalItemsWishlist => _calculateTotalItemsWishlist();
+
   double calculateTotalPokemonCart(String pokemon) => cart[pokemon]!['details'].price * _cart[pokemon]!['total'];
+
   String getTotalPokemonCart(String pokemon) => double.parse(calculateTotalPokemonCart(pokemon).toStringAsFixed(2)).toString();
+
   double _calculateTotalCart() {
     double total = 0;
     _cart.keys.forEach((pokemon) {
@@ -20,8 +25,26 @@ class CartWishlistNotifier with ChangeNotifier, DiagnosticableTreeMixin {
     return total;
   }
 
+  int _calculateTotalItemsCart() {
+    int total = 0;
+    _cart.keys.forEach((pokemon) {
+      total = _cart[pokemon]!['total'] + total;
+    });
+    return total;
+  }
+
   double calculateTotalPokemonWishlist(String pokemon) => wishlist[pokemon]!['details'].price * _wishlist[pokemon]!['total'];
+
   String getTotalPokemonWishlist(String pokemon) => double.parse(calculateTotalPokemonWishlist(pokemon).toStringAsFixed(2)).toString();
+
+  int _calculateTotalItemsWishlist() {
+    int total = 0;
+    _wishlist.keys.forEach((pokemon) {
+      total = _wishlist[pokemon]!['total'] + total;
+    });
+    return total;
+  }
+
 
   void addPokemonToCart(Pokemon pokemon) {
     if (_cart[pokemon.name] == null) {
