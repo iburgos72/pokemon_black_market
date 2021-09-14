@@ -37,6 +37,7 @@ class Pokemon {
   });
 
   double get price => weight! / height!;
+  String get totalPrice => double.parse(price.toStringAsFixed(2)).toString();
 
   factory Pokemon.fromJson(Map<String, dynamic> json) => _$PokemonFromJson(json);
   Map<String, dynamic> toJson() => _$PokemonToJson(this);

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:pokemon_black_market/helpers/string_helpers.dart';
 import 'package:pokemon_black_market/provider/cart_wishlist_notifier.dart';
 import 'package:pokemon_black_market/provider/pokemon_details_notifier.dart';
 import 'package:pokemon_black_market/provider/view_notifier.dart';
@@ -14,39 +15,60 @@ class PokemonDetails extends StatelessWidget {
 
     switch (state) {
       case PokemonDetailsState.loading:
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       case PokemonDetailsState.error:
-        return Center(child: Text('Generic Error'));
+        return const Center(child: Text('Generic Error'));
       case PokemonDetailsState.populated:
         final pokemon = pokemonDetails.pokemon;
         return Scaffold(
           appBar: AppBar(
-            title: Text(pokemon!.name),
+            title: Text(pokemon!.name.capitalize()),
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Image.network(pokemon.sprites!.front_default!),
-              Text('Types:', style: TextStyle(fontWeight: FontWeight.bold)),
-              Row(
-                children: pokemon.types!.map((e) => new Text(e.type!.name!)).toList(),
+              const Text(
+                'Types:',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
-              Text('Price:', style: TextStyle(fontWeight: FontWeight.bold)),
-              Text('${(pokemon.weight! / pokemon.height!).toString()}'),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  FloatingActionButton(
-                    onPressed: () => pokeList.addPokemonToCart(pokemon),
-                    child: Icon(Icons.shopping_cart_outlined),
-                  ),
-                  FloatingActionButton(
-                    onPressed: () => pokeList.addPokemonToWishlist(pokemon),
-                    child: Icon(Icons.star_border),
-                  )
-                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: pokemon.types!.map((e) => new Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text(e.type!.name!.capitalize()),
+                  ))
+                ).toList(),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Price:',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                '\$${pokemon.totalPrice}',
+                textAlign: TextAlign.center,
               ),
             ],
+          ),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.only(bottom: 32.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                FloatingActionButton(
+                  onPressed: () => pokeList.addPokemonToCart(pokemon),
+                  child: const Icon(Icons.shopping_cart_outlined),
+                ),
+                FloatingActionButton(
+                  onPressed: () => pokeList.addPokemonToWishlist(pokemon),
+                  child: const Icon(Icons.star_border),
+                )
+              ],
+            ),
           ),
         );
     }
