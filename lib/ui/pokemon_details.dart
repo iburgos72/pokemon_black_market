@@ -60,10 +60,12 @@ class PokemonDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 FloatingActionButton(
+                  heroTag: 'cart',
                   onPressed: () => pokeList.addPokemonToCart(pokemon),
                   child: const Icon(Icons.shopping_cart_outlined),
                 ),
                 FloatingActionButton(
+                  heroTag: 'wishlist',
                   onPressed: () => pokeList.addPokemonToWishlist(pokemon),
                   child: const Icon(Icons.star_border),
                 )
