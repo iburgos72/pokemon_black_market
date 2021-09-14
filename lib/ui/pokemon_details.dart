@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
 import 'package:pokemon_black_market/helpers/string_helpers.dart';
 import 'package:pokemon_black_market/provider/cart_wishlist_notifier.dart';
@@ -61,12 +63,30 @@ class PokemonDetails extends StatelessWidget {
               children: <Widget>[
                 FloatingActionButton(
                   heroTag: 'cart',
-                  onPressed: () => pokeList.addPokemonToCart(pokemon),
+                  backgroundColor: Color.fromRGBO(250, 0, 0, 1),
+                  onPressed: () {
+                    pokeList.addPokemonToCart(pokemon);
+                    showTopSnackBar(
+                      context, CustomSnackBar.success(
+                        message: "Pokemon added to your cart",
+                        backgroundColor: Color.fromRGBO(250, 0, 0, 1),
+                      ),
+                    );
+                  },
                   child: const Icon(Icons.shopping_cart_outlined),
                 ),
                 FloatingActionButton(
                   heroTag: 'wishlist',
-                  onPressed: () => pokeList.addPokemonToWishlist(pokemon),
+                  backgroundColor: Color.fromRGBO(200, 0, 0, 1),
+                  onPressed: () {
+                    pokeList.addPokemonToWishlist(pokemon);
+                    showTopSnackBar(
+                      context, CustomSnackBar.info(
+                        message: "Pokemon added to your wishlist",
+                        backgroundColor: Color.fromRGBO(200, 0, 0, 1),
+                      ),
+                    );
+                  },
                   child: const Icon(Icons.star_border),
                 )
               ],

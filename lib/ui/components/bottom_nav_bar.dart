@@ -30,7 +30,7 @@ class BottomNavBar extends StatelessWidget {
             label: 'Wishlist'
         ),
       ],
-      currentIndex: context.watch<ViewNotifier>().selectedIndex,
+      currentIndex: context.select<ViewNotifier, int>((viewNotifier) => viewNotifier.selectedIndex),
       selectedItemColor: Colors.red,
       onTap: context.read<ViewNotifier>().setSelectedIndex,
     );
